@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Job Hunt Intelligence",
+  "description": "Track time spent on job hunting websites",
+  "version": "1.0",
+  "permissions": [
+    "tabs",
+    "storage",
+    "idle"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "host_permissions": [
+    "*://*.linkedin.com/*",
+    "*://*.indeed.com/*",
+    "*://*.naukri.com/*"
+  ]
+}
