@@ -8,6 +8,7 @@ import com.jobhunt.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import com.jobhunt.backend.dto.PlatformTimeResponse;
 import java.util.List;
+import com.jobhunt.backend.dto.WeeklyAnalyticsResponse;
 
 @Service
 public class EventService {
@@ -44,5 +45,15 @@ public class EventService {
         return eventRepository.getPlatformWiseTime(userId);
     }
 
+    public List<WeeklyAnalyticsResponse> getWeeklyAnalytics(Long userId) {
+        List<Object[]> rows = eventRepository.getWeeklyAnalyticsRaw(userId);
+        return rows.stream()
+            .map(row -> new WeeklyAnalyticsResponse(
+                ((Number) row[0]).intValue(),   // week
+                (Long) row[1],                  // totalTime
+                (Long) row[2]                   // totalEvents
+        ))
+        .toList();
+    }
 
 }

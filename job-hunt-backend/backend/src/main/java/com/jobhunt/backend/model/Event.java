@@ -72,5 +72,9 @@ public class Event {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
 }
 

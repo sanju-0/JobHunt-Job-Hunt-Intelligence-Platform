@@ -6,6 +6,7 @@ import com.jobhunt.backend.service.EventService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import com.jobhunt.backend.dto.PlatformTimeResponse;
+import com.jobhunt.backend.dto.WeeklyAnalyticsResponse;
 
 @RestController
 @RequestMapping("/events")
@@ -32,4 +33,8 @@ public class EventController {
         return eventService.getPlatformWiseTime(userId);
     }
 
+    @GetMapping("/analytics/weekly")
+    public List<WeeklyAnalyticsResponse> getWeeklyAnalytics(@RequestParam Long userId) {
+        return eventService.getWeeklyAnalytics(userId);
+    }
 }

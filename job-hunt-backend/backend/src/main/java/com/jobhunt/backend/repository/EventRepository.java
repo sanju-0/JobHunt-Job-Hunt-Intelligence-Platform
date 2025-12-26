@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import com.jobhunt.backend.dto.PlatformTimeResponse;
+import com.jobhunt.backend.dto.WeeklyAnalyticsResponse;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
 
@@ -29,4 +30,17 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     GROUP BY e.platform
     """)
     List<PlatformTimeResponse> getPlatformWiseTime(Long userId);
+
+    @Query("""
+    SELECT
+        FUNCTION('week', e.timestamp),
+        SUM(e.duration),
+        COUNT(e.id)
+    FROM Event e
+    WHERE e.user.id = :userId
+    GROUP BY FUNCTION('week', e.timestamp)
+    ORDER BY FUNCTION('week', e.timestamp)
+    """)
+    List<Object[]> getWeeklyAnalyticsRaw(Long userId);
+
 }
