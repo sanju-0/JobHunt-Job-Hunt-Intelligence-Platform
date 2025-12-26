@@ -7,6 +7,7 @@ import com.jobhunt.backend.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -15,21 +16,18 @@ public class DataSeeder {
 
     @Bean
     CommandLineRunner seedData(
-            UserRepository userRepository,
-            EventRepository eventRepository) {
+        UserRepository userRepository,
+        EventRepository eventRepository,
+        PasswordEncoder passwordEncoder) {
 
         return args -> {
 
-            // Avoid duplicate seeding
-            if (userRepository.count() > 0) {
-                return;
-            }
+        if (userRepository.count() > 0) return;
 
-            // Create User
-            User user = new User();
-            user.setEmail("demo@jobhunt.com");
-            user.setPassword("demo123");
-            userRepository.save(user);
+        User user = new User();
+        user.setEmail("demo@jobhunt.com");
+        user.setPassword(passwordEncoder.encode("demo123")); // ✅ FIX
+        userRepository.save(user);
 
             // Event 1
             Event e1 = new Event();
